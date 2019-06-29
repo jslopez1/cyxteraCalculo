@@ -17,6 +17,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.Singleton;
+
 import javax.ws.rs.client.Client;
 
 import javax.ws.rs.client.ClientBuilder;
@@ -31,12 +33,14 @@ import org.glassfish.jersey.client.ClientConfig;
  *
  * @author usuario
  */
-public class AuditoriaAdmin {
-
+@Singleton
+public  class AuditoriaAdmin {
     private final static String URL = "https://cyxteraprueba.firebaseio.com/.json";
-    private final static Logger LOG=Logger.getLogger(AuditoriaAdmin.LOG.getName());
+    private final static Logger LOG= Logger.getLogger(AuditoriaAdmin.class.getName());
+   
     
-    public static Boolean enviar(String texto) {
+    
+    public  Boolean enviar(String texto) {
         try {
             Client cliente = ClientBuilder.newClient(new ClientConfig().register(JacksonJsonProvider.class));
             Response auditoriaResult = cliente.target(URL)
@@ -52,7 +56,7 @@ public class AuditoriaAdmin {
         }
     }
 
-    public static List<Auditoria> obtener() {
+    public  List<Auditoria> obtener() {
         Client cliente = ClientBuilder.newClient();
         List<Auditoria> auditorias = cliente.target(URL)
                 .request(MediaType.APPLICATION_JSON).get(new GenericType<List<Auditoria>>() {

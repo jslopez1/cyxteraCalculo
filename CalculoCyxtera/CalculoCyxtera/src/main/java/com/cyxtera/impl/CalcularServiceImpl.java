@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.ejb.Singleton;
 
 /**
@@ -17,7 +18,9 @@ import javax.ejb.Singleton;
  */
 @Singleton
 public class CalcularServiceImpl implements CalcularService {
-
+    @EJB
+    private AuditoriaAdmin auditoria;
+    
     private List<Ambiente> ambientes;
     private int id = 0;
     private final static Logger LOG = Logger.getLogger(CalcularServiceImpl.class.getName());
@@ -29,16 +32,20 @@ public class CalcularServiceImpl implements CalcularService {
     @Override
     public Integer nuevoAmbiente() {
         id = id + 1;
-        if (ambientes == null) {
+        try {
+            if (ambientes == null) {
 
-            ambientes = new ArrayList<>();
-            AuditoriaAdmin.enviar("Se instancia el listado de ambientes");
-            LOG.info("Se instancia el listado de ambientes");
+                ambientes = new ArrayList<>();
+                auditoria.enviar("Se instancia el listado de ambientes");
+                LOG.info("Se instancia el listado de ambientes");
+            }
+            Ambiente nuevoAmbiente = new Ambiente(id);
+            ambientes.add(nuevoAmbiente);
+            LOG.info("Se agrega el el nuevo ambiente al listado de ambientes.");
+            return id;
+        } catch (Exception e) {
+                return 0;
         }
-        Ambiente nuevoAmbiente = new Ambiente(id);
-        ambientes.add(nuevoAmbiente);
-        LOG.info("Se agrega el el nuevo ambiente al listado de ambientes.");
-        return id;
     }
     /**
      * Permite agregar un operando a un ambiente especifico segun su id.
@@ -53,8 +60,8 @@ public class CalcularServiceImpl implements CalcularService {
         if (ambiente != null) {
             LOG.log(Level.INFO, "Se agrega el operando={0}", operando);
             ambiente.getOperandos().add(operando);
-            AuditoriaAdmin.enviar("Se agrega el operando: "+operando);
-            return "Ok";
+            auditoria.enviar("Se agrega el operando: "+operando);
+            return "Se agrega el valor "+operando+"al ambiente con id"+id;
         } else {
             LOG.log(Level.WARNING, "No se encuentra el ambiente con id={0}", operando);
             return "No se encuentra el ambiente ";
@@ -108,21 +115,21 @@ public class CalcularServiceImpl implements CalcularService {
                 case RESTA:
                     resultado = OperacionUtil.restar(ambiente.getOperandos());
                     break;
-                case MULTIPLICACION:
+                case MULT:
                     resultado = OperacionUtil.multiplicar(ambiente.getOperandos());
                     break;
-                case DIVISION:
+                case DIV:
                     resultado = OperacionUtil.dividir(ambiente.getOperandos());
                     break;
-                case POTENCIACION:
-                    resultado = OperacionUtil.dividir(ambiente.getOperandos());
+                case POT:
+                    resultado = OperacionUtil.potenciacion(ambiente.getOperandos());
                     break;
                 default:
                     return "Operacion no valida";
 
             }
             LOG.log(Level.INFO, "Se hace la operacion de manera exitosa resultado: {0}", resultado);
-            AuditoriaAdmin.enviar("Se obtiene y se agrega al ambiente el resultado: "+resultado);
+            auditoria.enviar("Se obtiene y se agrega al ambiente el resultado: "+resultado);
             ambiente.getOperandos().add(resultado);
             return resultado.toString();
         } catch (Exception ex) {

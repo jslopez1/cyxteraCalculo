@@ -10,17 +10,7 @@ package com.cyxtera.enums;
  * @author jhon.lopez
  */
 public enum EnumOperacion {
-    SUMA("suma"),RESTA("resta"),MULTIPLICACION("mult"),DIVISION("div"),POTENCIACION("pot");
-    
-    private final  String operacion;
-    
-    EnumOperacion(String operacion){
-        this.operacion=operacion;
-    }
-
-    public String operacion() {
-        return operacion;
-    }
+    SUMA,RESTA,MULT,DIV,POT;
     
     
 }
