@@ -1,6 +1,7 @@
 package com.cyxtera.impl;
 
 import com.cyxtera.CalcularService;
+import com.cyxtera.auditoria.AuditoriaAdmin;
 import com.cyxtera.dto.Ambiente;
 import com.cyxtera.enums.EnumOperacion;
 import com.cyxtera.util.OperacionUtil;
@@ -31,6 +32,7 @@ public class CalcularServiceImpl implements CalcularService {
         if (ambientes == null) {
 
             ambientes = new ArrayList<>();
+            AuditoriaAdmin.enviar("Se instancia el listado de ambientes");
             LOG.info("Se instancia el listado de ambientes");
         }
         Ambiente nuevoAmbiente = new Ambiente(id);
@@ -51,6 +53,7 @@ public class CalcularServiceImpl implements CalcularService {
         if (ambiente != null) {
             LOG.log(Level.INFO, "Se agrega el operando={0}", operando);
             ambiente.getOperandos().add(operando);
+            AuditoriaAdmin.enviar("Se agrega el operando: "+operando);
             return "Ok";
         } else {
             LOG.log(Level.WARNING, "No se encuentra el ambiente con id={0}", operando);
@@ -119,6 +122,7 @@ public class CalcularServiceImpl implements CalcularService {
 
             }
             LOG.log(Level.INFO, "Se hace la operacion de manera exitosa resultado: {0}", resultado);
+            AuditoriaAdmin.enviar("Se obtiene y se agrega al ambiente el resultado: "+resultado);
             ambiente.getOperandos().add(resultado);
             return resultado.toString();
         } catch (Exception ex) {
