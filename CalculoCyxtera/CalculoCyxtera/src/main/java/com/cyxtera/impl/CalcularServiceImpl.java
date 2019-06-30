@@ -135,7 +135,7 @@ public class CalcularServiceImpl implements CalcularService {
             return resultado.toString();
         } catch (Exception ex) {
             LOG.log(Level.SEVERE,"Ocurrio un error al intentar hacer la operacion: "+operacion , ex);
-            return "Ocurrio un error inesperado";
+            return "Ocurrio un error al intentar hacer la operacion: "+operacion;
         }
         
     }
