@@ -36,10 +36,11 @@ public class CalcularServiceImpl implements CalcularService {
             if (ambientes == null) {
 
                 ambientes = new ArrayList<>();
-                auditoria.enviar("Se instancia el listado de ambientes");
+                
                 LOG.info("Se instancia el listado de ambientes");
             }
             Ambiente nuevoAmbiente = new Ambiente(id);
+            auditoria.enviar("Se agrega el nuevo ambiente al listado de ambientes con id: "+id);
             ambientes.add(nuevoAmbiente);
             LOG.info("Se agrega el el nuevo ambiente al listado de ambientes.");
             return id;
@@ -101,7 +102,7 @@ public class CalcularServiceImpl implements CalcularService {
         try {
             if (ambiente == null) {
                 LOG.log(Level.WARNING, "No se encuentra el ambiente con id={0}", id);
-                return "No se encuentra el ambiente";
+                return "No se encuentra el ambiente con id="+id;
             }
             if (operacion == null || operacion.isEmpty()) {
                 LOG.log(Level.WARNING, "La operacion no es valida con id={0}", id);
@@ -137,6 +138,14 @@ public class CalcularServiceImpl implements CalcularService {
             return "Ocurrio un error inesperado";
         }
         
+    }
+    /**
+     * Permite obtenera la informacion de auditoria almacenada.
+     * @return 
+     */
+    @Override
+    public String obtenerAuditoria(){
+       return auditoria.obtenerAuditoria();
     }
 
 }

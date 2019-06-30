@@ -9,8 +9,8 @@ import java.util.Set;
 import javax.ws.rs.core.Application;
 
 /**
- *
- * @author usuario
+ * Configuracion de recursos de RestFul.
+ * @author jhon.lopez 
  */
 @javax.ws.rs.ApplicationPath("aplicacion")
 public class ApplicationConfig extends Application {

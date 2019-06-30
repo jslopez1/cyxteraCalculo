@@ -4,7 +4,7 @@ package com.cyxtera.util;
 import java.util.List;
 
 /**
- *  Contiene las clases utilitarias para la ejecucion de operaciones.
+ * Contiene las clases utilitarias para la ejecucion de operaciones.
  * @author jhon.lopez
  */
 public class OperacionUtil {

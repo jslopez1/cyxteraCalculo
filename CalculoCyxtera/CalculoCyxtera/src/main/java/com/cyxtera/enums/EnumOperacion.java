@@ -6,7 +6,7 @@
 package com.cyxtera.enums;
 
 /**
- *
+ * Enum con las operaciones para realizar con el servicio restful
  * @author jhon.lopez
  */
 public enum EnumOperacion {

@@ -23,6 +23,7 @@ import javax.ws.rs.client.Client;
 
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -31,7 +32,7 @@ import org.glassfish.jersey.client.ClientConfig;
 /**
  * Clase que permite guardar auditoria en base de datos NonSql
  *
- * @author usuario
+ * @author jhon.lopez
  */
 @Singleton
 public  class AuditoriaAdmin {
@@ -39,7 +40,11 @@ public  class AuditoriaAdmin {
     private final static Logger LOG= Logger.getLogger(AuditoriaAdmin.class.getName());
    
     
-    
+    /**
+     * Permite enviar mensajes de auditoria a la base de datos
+     * @param texto
+     * @return 
+     */
     public  Boolean enviar(String texto) {
         try {
             Client cliente = ClientBuilder.newClient(new ClientConfig().register(JacksonJsonProvider.class));
@@ -55,12 +60,14 @@ public  class AuditoriaAdmin {
              return Boolean.FALSE;
         }
     }
-
-    public  List<Auditoria> obtener() {
-        Client cliente = ClientBuilder.newClient();
-        List<Auditoria> auditorias = cliente.target(URL)
-                .request(MediaType.APPLICATION_JSON).get(new GenericType<List<Auditoria>>() {
-        });
-        return auditorias;
+    /**
+     * Permite consultar la auditoria almacenada.
+     * @return 
+     */
+    public String obtenerAuditoria() {
+       Client cliente = ClientBuilder.newClient(new ClientConfig().register(JacksonJsonProvider.class));
+       WebTarget webtarget = cliente.target("https://cyxteraprueba.firebaseio.com/.json");
+       String resultado= webtarget.request().get(String.class);
+       return resultado!=null?resultado:"";
     }
 }

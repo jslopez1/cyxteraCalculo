@@ -1,19 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.cyxtera.dto;
 
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
- *
- * @author usuario
+ * Clase que permite transportar la informacion de auditoria.
+ * @author jhon.lopez
  */
 
-public class Auditoria {
+public class Auditoria implements Serializable{
+     private static final long serialVersionUID = 7895L;
     
     private Date fechaAuditoria;
     
